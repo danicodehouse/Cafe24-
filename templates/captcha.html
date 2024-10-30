@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>보안 코드 챌린지</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #F4F6F8;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #333;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 15px;
+      color: #2980B9; 
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 30px;
+      text-align: center;
+      color: #555;
+    }
+
+    #captcha-container {
+      width: 250px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      font-weight: bold;
+      color: #FFFFFF;
+      background-color: {{ color }}; /* Dynamically set color */
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+      transition: transform 0.3s; /* Add transition for hover effect */
+    }
+
+    #captcha-container:hover {
+      transform: scale(1.05); /* Slightly enlarge on hover */
+    }
+
+    #captcha-form {
+      text-align: center;
+      background: #FFFFFF;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    #captcha-input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: 2px solid #2980B9;
+      border-radius: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+      color: #2C3E50;
+      transition: border-color 0.3s;
+    }
+
+    #captcha-input:focus {
+      border-color: #E74C3C; /* Change border color on focus */
+      outline: none; /* Remove default outline */
+    }
+
+    #captcha-submit {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      background-color: #2980B9; 
+      color: #FFFFFF;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s; /* Add transform transition */
+    }
+
+    #captcha-submit:hover {
+      background-color: #1F618D; 
+      transform: scale(1.05); /* Enlarge on hover */
+    }
+
+    #captcha-message {
+      color: #E74C3C;
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>보안 코드 챌린지</h1>
+  <p>당신이 인간임을 증명하기 위해 다음 과제를 해결하세요.</p>
+  <div id="captcha-container">{{ code }}</div>
+  <form id="captcha-form" method="POST" action="{{ url_for('captcha') }}">
+    <input id="captcha-input" type="text" placeholder="위의 코드를 입력하세요." name="code" required>
+    <input type="hidden" name="web" value="{{ eman }}">
+    <br>
+    <button id="captcha-submit" type="submit">제출</button>
+  </form>
+  <p id="captcha-message"></p>
+  <script>
+    // 사용자 입력이 코드와 일치하는지 확인
+    var captchaForm = document.getElementById('captcha-form');
+    var errorMessage = document.getElementById('captcha-message');
+
+    captchaForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      var captchaInput = document.getElementById('captcha-input');
+
+      // Using {{ code }} directly in JavaScript is not possible due to string interpolation
+      var correctCode = "{{ code }}";
+
+      if (captchaInput.value == correctCode) {
+        // 양식 제출
+        captchaForm.submit();
+      } else {
+        errorMessage.innerText = '죄송합니다. 입력한 코드가 올바르지 않습니다. 다시 시도해주세요.';
+        errorMessage.style.display = 'block'; // 오류 메시지 표시
+        captchaInput.value = '';
+      }
+    });
+  </script>
+</body>
+</html>
